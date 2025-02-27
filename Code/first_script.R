@@ -11,3 +11,7 @@ plot (luca,filippo, pch=19, col="blue", cex=2, xlab="rubbish", ylab="biomass")
 # CRAN
 install.packages("terra")
 library (terrra)
+install.packages("devtools")
+library("devtools")
+install_github("ducciorocchini/imageRy")
+library(imageRy)
