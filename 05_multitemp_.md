@@ -1,6 +1,6 @@
 # Reporting Multitemporal analysis in R
 
-First of all, we should import imahe by: 
+First of all, we should import image by: 
 ``` r
 im.list # make a list
 gr=im.import("greenland") # to import image
@@ -16,7 +16,7 @@ This will create the following output image:
 <img src= />
 <img scr="../Pics/difgreen.jpeg" widht=100% />
 
->Note 1: If you want to put pdf files you can rely on:
+>Note 1: If you want to put pdf files you can rely on:https://stackoverflow.com/questions/39777166/display-pdf-image-in-markdown
 
 >Note 2: information about Copernicus programme can be found at: https://www.copernicus.eu/en
 
