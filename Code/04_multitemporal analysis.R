@@ -36,8 +36,8 @@ im.multiframe(1,2)
 plot(gr[[1]], col=rocket(100))
 plot(gr[[4]], col=rocket(100))
 
-grdif = gr[[4]] - gr[[1]] # 2015 - 2000
-plot(grdif)
+difgr = gr[[4]] - gr[[1]] # 2015 - 2000
+plot(difgr)
 # All the yellow parts are those in which there is a higher value in 2015
 
 #Ridgeline plots
