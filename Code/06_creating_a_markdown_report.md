@@ -13,8 +13,8 @@ grdif= gr[[4]] - gr[[1]]
 ```
 
 This will create the following output image:
-
 <img scr="../Pics/difgreen.jpeg" widht=100% />
+
 
 >Note 1: If you want to put pdf files you can rely on:https://stackoverflow.com/questions/39777166/display-pdf-image-in-markdown
 
