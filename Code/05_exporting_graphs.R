@@ -18,9 +18,9 @@ plot(gr)
 dev.off()
 
 pdf("difgreen.pdf")
-plot(difgr)
+plot(difgreen)
 dev.off()
 
-jpeg("difgr.jpeg")
-plot(difgr)
+jpeg("difgreen.jpeg")
+plot(difgreen)
 dev.off()
