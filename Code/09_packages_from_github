@@ -1,0 +1,13 @@
+#R code for installing packages from Github
+#From Github:
+librar(devtools) #or remotes
+
+install_github("ducciorocchini/cblindplot")
+library(cblindplot)
+
+install_github("clauswilke/colorblindr")
+library(colorblindr)
+
+#From CRAN:
+install.packages("colorblindcheck")
+
