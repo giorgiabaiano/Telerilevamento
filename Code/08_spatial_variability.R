@@ -77,7 +77,7 @@ plot(sent)
 ncell(sent) 
 
 ncell(sent) * nlyr(sent)
-#794*798
+#794 * 798
 #2534448
 
 senta = aggregate (sent, fact=2)
@@ -88,10 +88,6 @@ senta5 = aggregate (sent, fact=5)
 ncell(senta5) * nlyr(senta5)
 #101760
 
-#Calculating standard deviation
-nira = senta[[1]]
-sda3a = focal(nira, w=c(3,3), fun="sd")
-
 #Exercise:  make a multiframe and plot in RGB the three images (original, factor 2 and factor 5)
 im.multiframe(1,3)
 im.plotRGB(sent, r=1, g=2, b=3)
@@ -100,13 +96,14 @@ im.plotRGB(senta5, r=1, g=2, b=3)
 
 #Calculating standard deviation
 nira = senta[[1]]
-sd3a = focal(nira, w=c(3,3), fun="sd")
-plot(sd3a)
+sda3a = focal(nira, w=c(3,3), fun="sd")
 
 #Exercise: calculate the standard deviation for the factor 5 image
 nira5 = senta5[[1]]
 sd3a5 = focal(nira5, w=c(3,3), fun="sd")
+
 sda5a5 = focal(nira5, w=c(3,3), fun="sd")
+plot(sd5a5)
 
 im.multiframe(2,2)
 plot(sd5a5)
@@ -120,8 +117,6 @@ plot(nir)
 sd3 = focal(nir, w=c(3,3), fun=sd)
 plot(sd3)
 
-sd5 = focal(nir, w=c(5,5), fun=sd)
-plot(sd5)
 
 im.multiframe(2,2)
 plot(sd3)
@@ -139,3 +134,15 @@ p1 + p2 p3 + p4
 #Variance
 #nir
 var3 = sd3^2
+
+dev.off()
+plot(var3)
+
+im.multiframe(1,2)
+plot(sd3)
+plot(var3)
+
+sd5 = focal(nir, w=c(5,5), fun="sd")
+var5 = sd5^2
+plot(sd5)
+plot(var5)
