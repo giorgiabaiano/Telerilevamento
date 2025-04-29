@@ -22,7 +22,7 @@ fires = flip(fires)
 plot(fires)
 ```
 
-The image is the following:
+The image is the following: trascino l'immagine
 
 ![fires](https://github.com/user-attachments/assets/e0f07ba3-8883-4b8b-b9e8-8e1a2049f296)
 
@@ -43,7 +43,7 @@ plot(fireindex)
 dev.off()
 ```
 
-The index looks like:
+The index looks like: trascino l'immagine
 
 ![fireindex](https://github.com/user-attachments/assets/0690737f-e49b-4b94-9178-29ad76804765)
 
