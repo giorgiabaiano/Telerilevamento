@@ -24,10 +24,11 @@ im.plotRGB(vinicunca, r=2, g=1, b=3, title="Protanopia")
 
 #Solving colorblindness:
 dev.off()
-setwd("~/Desktop")
-vinicunca = rast("rainbow.jpg")
-rianbow=rast("rainbow.jpg")
+rainbow = rast("rainbow.jpg")
 plot(rainbow)
-rainbow=flip(rainbow)
+rainbow = flip(rainbow)
 plot(rainbow)
 cblind.plot(rainbow, cvd="protanopia")
+cblind.plot(rainbow, cvd="deuteranopia")
+cblind.plot(rainbow, cvd="tritanopia")
+
