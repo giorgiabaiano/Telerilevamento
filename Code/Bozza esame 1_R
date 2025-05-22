@@ -388,4 +388,16 @@ dev.off()
 
 
 # Possiamo calcolare il DVI (Difference Vegetation Index che ci dà informazione sullo stato delle piante) basandosi sulla banda b8 relativa al NIR:
+#8 = NIR
+#1 =red
+
+DVIpre = pinetapre[[8]] - pinetapre[[1]] #NIR - red
+plot(pinetapre)
+
+plot(DVIpre, col=inferno(100))
+
+
+DVIpost = pinetapost[[8]] - pinetapost[[1]] #NIR - red
+plot(DVIpost)
+
 
