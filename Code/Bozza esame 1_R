@@ -1,9 +1,18 @@
 # I dati sono stati ricavati dal seguente sito web: https://earthengine.google.com/
 https://www.centrometeoemiliaromagna.com/evidenza/tornado-a-milano-marittima-la-dinamica
 
+# Pacchetti usati:
+library(terra)
+library(imageRy)
+library(viridis) #pacchetto che permette di creare plot di immagini con differenti palette di colori di viridis
+library(ggridges) #pacchetto che permette di creare i plot ridgeline
+library()
+library()
 
-# Codice utilizzato in java script per ottenere le immagini della Pineta di Milano Marittima (RA) prima e dopo il passaggio del tornado, avvenuto 10 luglio 2019, con una perdita di oltre 2200 piante.
+
+# Codice utilizzato in java script per ottenere le immagini della Pineta di Milano Marittima (RA) prima e dopo il passaggio del tornado, avvenuto 10 luglio 2019, che ha portato ad una perdita di oltre 2200 piante.
 #in mark down rendere visibile il java script scrivendo: ``` javascript
+
 
 #La prima immagine chiamata "pinetapre" riporta una collection di immagini che vanno dal 2017-06-01 al 2019-06-30, selezionando solo immagini con una copertura nuvolosa <20%.
 
@@ -168,7 +177,30 @@ Export.image.toDrive({
 });
 
 
-# Importo le immagini "pinetapre" e "pinetapost" utilizzando la banda 8 relativa al NIR al posto del red nella visualizzazione RGB:
+# Una volta ottenute le due immagini posso impostare la working directory e importarle su R:
+
+setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") #working directory in cui ho salvato il file da importare
+pinetapre= rast("pinetapre.jpg")
+plot(pinetapre)
+pinetapre= flip(pinetapre)
+plot(pinetapre)
+dev.off()
+
+setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/")
+pinetapost= rast("pinetapost.jpg")
+plot(pinetapost)
+pinetapost= flip(pinetapost)
+plot(pinetapost)
+dev.off()
+
+im.multiframe(1,2) #funzione che apre un pannello multiframe che mi permette di vedere le due immagini una affianco all'altra
+plot(pinetapre)
+plot(pinetapost)
+dev.off()
+
+
+
+# Scarico le immagini "pinetapre" e "pinetapost" utilizzando la banda 8 relativa al NIR al posto del red nella visualizzazione RGB:
 
 # Script per ottenere l'immagine "pinetapre8":
 
@@ -335,15 +367,25 @@ Export.image.toDrive({
 
 
 
+setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") 
+pinetapre8= rast("pinetapre8.jpg")
+plot(pinetapre8)
+pinetapre8= flip(pinetapre8)
+plot(pinetapre8)
+dev.off()
 
+setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/")
+pinetapost8= rast("pinetapost8.jpg")
+plot(pinetapost8)
+pinetapost8= flip(pinetapost8)
+plot(pinetapost8)
+dev.off()
+
+im.multiframe(1,2)
+plot(pinetapre8)
+plot(pinetapost8)
+dev.off()
 
 
 # Possiamo calcolare il DVI (Difference Vegetation Index che ci dà informazione sullo stato delle piante) basandosi sulla banda b8 relativa al NIR:
 
-# Pacchetti usati:
-library(terra)
-library(imageRy)
-library(viridis) #pacchetto che permette di creare plot di immagini con differenti palette di colori di viridis
-library(ggridges) #pacchetto che permette di creare i plot ridgeline
-library()
-library()
