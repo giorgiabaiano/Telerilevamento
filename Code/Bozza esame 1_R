@@ -14,7 +14,7 @@ library()
 #in mark down rendere visibile il java script scrivendo: ``` javascript
 
 
-#La prima immagine chiamata "pinetapre" riporta una collection di immagini che vanno dal 2017-06-01 al 2019-06-30, selezionando solo immagini con una copertura nuvolosa <20%.
+#La prima immagine chiamata "pinetapre" riporta una collection di immagini che vanno dal 2018-06-01 al 2019-06-30, selezionando solo immagini con una copertura nuvolosa <20%.
 
 // ==============================================
 // Sentinel-2 Surface Reflectance - Cloud Masking and Visualization
@@ -45,7 +45,7 @@ function maskS2clouds(image) {
 // Load Sentinel-2 SR Harmonized collection (atmospherical correction already done)
 var collection = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
                    .filterBounds(pinetapre)
-                   .filterDate('2017-06-01', '2019-06-30')              // Filter by date                                   // Filter by AOI
+                   .filterDate('2018-06-01', '2019-06-30')              // Filter by date                                   // Filter by pinetapre
                    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)) // Only images with <20% cloud cover
                    .map(maskS2clouds);                                  // Apply cloud masking
 
@@ -87,13 +87,12 @@ Export.image.toDrive({
   image: composite.select(['B4', 'B3', 'B2']),  // Select RGB bands
   description: 'Sentinel2_Median_Composite',
   folder: 'GEE_exports',                        // Folder in Google Drive
-  fileNamePrefix: 'sentinel2_median_2020',
-  region: pinetapre,
+  fileNamePrefix: 'pinetapre',
+  region: pinetapre ,
   scale: 10,                                    // Sentinel-2 resolution
   crs: 'EPSG:4326',
   maxPixels: 1e13
 });
-
 
 
 #La seconda immagine chiamata "pinetapost" riporta una collection di immagini che vanno dal 2019-07-10 al 2020-05-30, selezionando solo immagini con una copertura nuvolosa <20%.
@@ -127,7 +126,7 @@ function maskS2clouds(image) {
 // Load Sentinel-2 SR Harmonized collection (atmospherical correction already done)
 var collection = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
                    .filterBounds(pinetapost)
-                   .filterDate('2019-07-10', '2020-05-30')              // Filter by date                                   // Filter by AOI
+                   .filterDate('2019-07-10', '2020-05-30')              // Filter by date                                   // Filter by pinetapost
                    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)) // Only images with <20% cloud cover
                    .map(maskS2clouds);                                  // Apply cloud masking
 
@@ -136,7 +135,7 @@ print('Number of images in collection:', collection.size());
 
 // ==============================================
 // Create a median composite from the collection
-// Useful when the pinetapost overlaps multiple scenes or frequent cloud cover
+// Useful when the pinetapre overlaps multiple scenes or frequent cloud cover
 // ==============================================
 var composite = collection.median().clip(pinetapost);
 
@@ -169,12 +168,13 @@ Export.image.toDrive({
   image: composite.select(['B4', 'B3', 'B2']),  // Select RGB bands
   description: 'Sentinel2_Median_Composite',
   folder: 'GEE_exports',                        // Folder in Google Drive
-  fileNamePrefix: 'sentinel2_median_2020',
+  fileNamePrefix: 'pinetapost',
   region: pinetapost,
   scale: 10,                                    // Sentinel-2 resolution
   crs: 'EPSG:4326',
   maxPixels: 1e13
 });
+
 
 
 # Una volta ottenute le due immagini posso impostare la working directory e importarle su R:
