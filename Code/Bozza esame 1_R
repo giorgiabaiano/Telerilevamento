@@ -1,4 +1,5 @@
-# I dati sono stati ricavati dal seguente sito web: https://earthengine.google.com/
+# I dati sono stati ricavati dal seguente sito web: https://earthengine.google.com/ 
+https://code.earthengine.google.com/
 https://www.centrometeoemiliaromagna.com/evidenza/tornado-a-milano-marittima-la-dinamica
 
 # Pacchetti usati:
@@ -6,12 +7,10 @@ library(terra)
 library(imageRy)
 library(viridis) #pacchetto che permette di creare plot di immagini con differenti palette di colori di viridis
 library(ggridges) #pacchetto che permette di creare i plot ridgeline
-library()
-library()
 
 
 # Codice utilizzato in java script per ottenere le immagini della Pineta di Milano Marittima (RA) prima e dopo il passaggio del tornado, avvenuto 10 luglio 2019, che ha portato ad una perdita di oltre 2200 piante.
-#in mark down rendere visibile il java script scrivendo: ``` javascript
+#in mark down rendere visibile il java script scrivendo: ``` JavaScript
 
 
 #La prima immagine chiamata "pinetapre" riporta una collection di immagini che vanno dal 2018-06-01 al 2019-06-30, selezionando solo immagini con una copertura nuvolosa <20%.
@@ -135,7 +134,7 @@ print('Number of images in collection:', collection.size());
 
 // ==============================================
 // Create a median composite from the collection
-// Useful when the pinetapre overlaps multiple scenes or frequent cloud cover
+// Useful when the pinetapost overlaps multiple scenes or frequent cloud cover
 // ==============================================
 var composite = collection.median().clip(pinetapost);
 
@@ -169,7 +168,7 @@ Export.image.toDrive({
   description: 'Sentinel2_Median_Composite',
   folder: 'GEE_exports',                        // Folder in Google Drive
   fileNamePrefix: 'pinetapost',
-  region: pinetapost,
+  region: pinetapost ,
   scale: 10,                                    // Sentinel-2 resolution
   crs: 'EPSG:4326',
   maxPixels: 1e13
@@ -177,26 +176,25 @@ Export.image.toDrive({
 
 
 
-# Una volta ottenute le due immagini posso impostare la working directory e importarle su R:
+# Una volta ottenute le due immagini su Drive, posso impostare la working directory e importarle su R:
 
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") #working directory in cui ho salvato il file da importare
-pinetapre= rast("pinetapre.jpg")
+pinetapre= rast("pinetapre.tif") #importo il raster
 plot(pinetapre)
-pinetapre= flip(pinetapre)
-plot(pinetapre)
+plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre")
 dev.off()
 
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/")
-pinetapost= rast("pinetapost.jpg")
+pinetapost= rast("pinetapost.tif")
 plot(pinetapost)
-pinetapost= flip(pinetapost)
-plot(pinetapost)
+plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost")
 dev.off()
 
 im.multiframe(1,2) #funzione che apre un pannello multiframe che mi permette di vedere le due immagini una affianco all'altra
-plot(pinetapre)
-plot(pinetapost)
+plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre")
+plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost")
 dev.off()
+
 
 
 
