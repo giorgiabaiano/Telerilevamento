@@ -1,6 +1,6 @@
 # I dati sono stati ricavati dal seguente sito web: https://earthengine.google.com/ 
 https://code.earthengine.google.com/
-https://www.centrometeoemiliaromagna.com/evidenza/tornado-a-milano-marittima-la-dinamica
+
 
 # Pacchetti usati:
 library(terra)
