@@ -181,16 +181,21 @@ Export.image.toDrive({
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") #working directory in cui ho salvato il file da importare
 pinetapre= rast("pinetapre.tif") #importo il raster
 plot(pinetapre)
-plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre")
+plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre") #plot RGB per visualizzare l'immagine nello spettro del visibile
 dev.off()
 
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/")
 pinetapost= rast("pinetapost.tif")
 plot(pinetapost)
-plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost")
+plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost") 
 dev.off()
 
-im.multiframe(1,2) #funzione che apre un pannello multiframe che mi permette di vedere le due immagini una affianco all'altra
+im.multiframe (2,3) #funzione che apre un pannello multiframe che mi permette di vedere le  immagini una affianco all'altra
+plot(pinetapre, col=viridis(100))
+plot(pinetapost, col=viridis(100))
+
+
+im.multiframe(1,2) 
 plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre")
 plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost")
 dev.off()
