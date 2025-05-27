@@ -404,3 +404,8 @@ DVIpost = pinetapost[[8]] - pinetapost[[1]] #NIR - red
 plot(DVIpost)
 
 
+
+
+#Conclusioni:
+#Ci vorrebbero analisi a più alta risoluzione per rendere visibile ogni singolo albero.
+
