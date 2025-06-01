@@ -9,7 +9,7 @@ library(viridis) #pacchetto che permette di creare plot di immagini con differen
 library(ggridges) #pacchetto che permette di creare i plot ridgeline
 
 
-# Codice utilizzato in java script per ottenere le immagini della Pineta di Milano Marittima (RA) prima e dopo il passaggio del tornado, avvenuto 10 luglio 2019, che ha portato ad una perdita di oltre 2200 piante.
+# Codice utilizzato in java script per ottenere le immagini della Pineta di Cervia - Milano Marittima (RA) prima e dopo il passaggio di una tromba d'aria, avvenuta il 10 luglio 2019, che ha portato ad una perdita di oltre 2500 piante.
 #in mark down rendere visibile il java script scrivendo: ``` JavaScript
 
 
@@ -44,7 +44,7 @@ function maskS2clouds(image) {
 // Load Sentinel-2 SR Harmonized collection (atmospherical correction already done)
 var collection = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
                    .filterBounds(pinetapre)
-                   .filterDate('2018-06-01', '2019-06-30')              // Filter by date                                   // Filter by pinetapre
+                   .filterDate('2018-06-01', '2019-06-30')              // Filter by date                                  
                    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)) // Only images with <20% cloud cover
                    .map(maskS2clouds);                                  // Apply cloud masking
 
@@ -125,7 +125,7 @@ function maskS2clouds(image) {
 // Load Sentinel-2 SR Harmonized collection (atmospherical correction already done)
 var collection = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
                    .filterBounds(pinetapost)
-                   .filterDate('2019-07-10', '2020-05-30')              // Filter by date                                   // Filter by pinetapost
+                   .filterDate('2019-07-10', '2020-05-30')              // Filter by date                                
                    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)) // Only images with <20% cloud cover
                    .map(maskS2clouds);                                  // Apply cloud masking
 
@@ -197,94 +197,12 @@ dev.off()
 im.multiframe(2,3) 
 plot(pinetapre, col=magma(100))
 plot(pinetapost, col=magma(100))
+dedv.off()
 
 
-# Scarico le immagini "pinetapre" e "pinetapost" utilizzando la banda 8 relativa al NIR al posto del red nella visualizzazione RGB:
+# Scarico le immagini "pinetapreNIR" e "pinetapostNIR" aggiungendo una quarta banda, la B8 relativa al NIR:
 
-# Script per ottenere l'immagine "pinetapre8":
-
-// ==============================================
-// Sentinel-2 Surface Reflectance - Cloud Masking and Visualization
-// https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED
-// ==============================================
-
-// ==============================================
-// Function to mask clouds using the QA60 band
-// Bits 10 and 11 correspond to opaque clouds and cirrus
-// ==============================================
-function maskS2clouds(image) {
-  var qa = image.select('QA60');
-  var cloudBitMask = 1 << 10;
-  var cirrusBitMask = 1 << 11;
-
-  // Keep only pixels where both cloud and cirrus bits are 0
-  var mask = qa.bitwiseAnd(cloudBitMask).eq(0)
-               .and(qa.bitwiseAnd(cirrusBitMask).eq(0));
-
-  // Apply the cloud mask and scale reflectance values (0–10000 ➝ 0–1)
-  return image.updateMask(mask).divide(10000);
-}
-
-// ==============================================
-// Load and Prepare the Image Collection
-// ==============================================
-
-// Load Sentinel-2 SR Harmonized collection (atmospherical correction already done)
-var collection = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
-                   .filterBounds(pinetapre8)
-                   .filterDate('2017-06-01', '2019-06-30')              // Filter by date                                   // Filter by AOI
-                   .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)) // Only images with <20% cloud cover
-                   .map(maskS2clouds);                                  // Apply cloud masking
-
-// Print number of images available after filtering
-print('Number of images in collection:', collection.size());
-
-// ==============================================
-// Create a median composite from the collection
-// Useful when the pinetapre8 overlaps multiple scenes or frequent cloud cover
-// ==============================================
-var composite = collection.median().clip(pinetapre8);
-
-// ==============================================
-// Visualization on the Map
-// ==============================================
-
-Map.centerObject(pinetapre8, 10); // Zoom to the pinetapre8
-
-// Display the first image of the collection (GEE does this by default)
-Map.addLayer(collection, {
-  bands: ['B4', 'B3', 'B2'],  // True color: Red, Green, Blue
-  min: 0,
-  max: 0.3
-}, 'First image of collection');
-
-// Display the median composite image
-Map.addLayer(composite, {
-  bands: ['B4', 'B3', 'B2'],
-  min: 0,
-  max: 0.3
-}, 'Median composite');
-
-// ==============================================
-// Export to Google Drive
-// ==============================================
-
-// Export the median composite
-Export.image.toDrive({
-  image: composite.select(['B4', 'B3', 'B2']),  // Select RGB bands
-  description: 'Sentinel2_Median_Composite',
-  folder: 'GEE_exports',                        // Folder in Google Drive
-  fileNamePrefix: 'sentinel2_median_2020',
-  region: pinetapre8,
-  scale: 10,                                    // Sentinel-2 resolution
-  crs: 'EPSG:4326',
-  maxPixels: 1e13
-});
-
-
-
-
-# Script per ottenere l'immagine "pinetapost8":
+# Script per ottenere l'immagine "pinetapreNIR":
 
 // ==============================================
 // Sentinel-2 Surface Reflectance - Cloud Masking and Visualization
@@ -314,8 +232,8 @@ function maskS2clouds(image) {
 
 // Load Sentinel-2 SR Harmonized collection (atmospherical correction already done)
 var collection = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
-                   .filterBounds(pinetapost8)
-                   .filterDate('2019-07-10', '2020-05-30')              // Filter by date                                   // Filter by AOI
+                   .filterBounds(pinetapreNIR)
+                   .filterDate('2018-06-01', '2019-06-30')              // Filter by date                                 
                    .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)) // Only images with <20% cloud cover
                    .map(maskS2clouds);                                  // Apply cloud masking
 
@@ -324,26 +242,26 @@ print('Number of images in collection:', collection.size());
 
 // ==============================================
 // Create a median composite from the collection
-// Useful when the pinetapost8 overlaps multiple scenes or frequent cloud cover
+// Useful when the pinetapreNIR overlaps multiple scenes or frequent cloud cover
 // ==============================================
-var composite = collection.median().clip(pinetapost8);
+var composite = collection.median().clip(pinetapreNIR);
 
 // ==============================================
 // Visualization on the Map
 // ==============================================
 
-Map.centerObject(pinetapost8, 10); // Zoom to the pinetapost8
+Map.centerObject(pinetapreNIR, 10); // Zoom to the pinetapreNIR
 
 // Display the first image of the collection (GEE does this by default)
 Map.addLayer(collection, {
-  bands: ['B4', 'B3', 'B2'],  // True color: Red, Green, Blue
+  band: ['B4', 'B3', 'B2', 'B8'],  // NIR color
   min: 0,
   max: 0.3
 }, 'First image of collection');
 
 // Display the median composite image
 Map.addLayer(composite, {
-  bands: ['B4', 'B3', 'B2'],
+  band: ['B4', 'B3', 'B2', 'B8'], 
   min: 0,
   max: 0.3
 }, 'Median composite');
@@ -354,52 +272,140 @@ Map.addLayer(composite, {
 
 // Export the median composite
 Export.image.toDrive({
-  image: composite.select(['B4', 'B3', 'B2']),  // Select RGB bands
-  description: 'Sentinel2_Median_Composite',
+  image: composite.select(['B4', 'B3', 'B2', 'B8']),  // Select NIR band
+  description: 'PinetapreNIR',
   folder: 'GEE_exports',                        // Folder in Google Drive
-  fileNamePrefix: 'sentinel2_median_2020',
-  region: pinetapost8,
+  fileNamePrefix: 'pinetapreNIR',
+  region: pinetapreNIR,
   scale: 10,                                    // Sentinel-2 resolution
   crs: 'EPSG:4326',
   maxPixels: 1e13
 });
 
 
+
+
+# Script per ottenere l'immagine "pinetapostNIR":
+
+// ==============================================
+// Sentinel-2 Surface Reflectance - Cloud Masking and Visualization
+// https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED
+// ==============================================
+
+// ==============================================
+// Function to mask clouds using the QA60 band
+// Bits 10 and 11 correspond to opaque clouds and cirrus
+// ==============================================
+function maskS2clouds(image) {
+  var qa = image.select('QA60');
+  var cloudBitMask = 1 << 10;
+  var cirrusBitMask = 1 << 11;
+
+  // Keep only pixels where both cloud and cirrus bits are 0
+  var mask = qa.bitwiseAnd(cloudBitMask).eq(0)
+               .and(qa.bitwiseAnd(cirrusBitMask).eq(0));
+
+  // Apply the cloud mask and scale reflectance values (0–10000 ➝ 0–1)
+  return image.updateMask(mask).divide(10000);
+}
+
+// ==============================================
+// Load and Prepare the Image Collection
+// ==============================================
+
+// Load Sentinel-2 SR Harmonized collection (atmospherical correction already done)
+var collection = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
+                   .filterBounds(pinetapostNIR)
+                   .filterDate('2019-07-10', '2020-05-30')              // Filter by date                                 
+                   .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20)) // Only images with <20% cloud cover
+                   .map(maskS2clouds);                                  // Apply cloud masking
+
+// Print number of images available after filtering
+print('Number of images in collection:', collection.size());
+
+// ==============================================
+// Create a median composite from the collection
+// Useful when the pinetapostNIR overlaps multiple scenes or frequent cloud cover
+// ==============================================
+var composite = collection.median().clip(pinetapostNIR);
+
+// ==============================================
+// Visualization on the Map
+// ==============================================
+
+Map.centerObject(pinetapostNIR, 10); // Zoom to the pinetapostNIR
+
+// Display the first image of the collection (GEE does this by default)
+Map.addLayer(collection, {
+  band: ['B4', 'B3', 'B2', 'B8'],  // NIR color
+  min: 0,
+  max: 0.3
+}, 'First image of collection');
+
+// Display the median composite image
+Map.addLayer(composite, {
+  band: ['B4', 'B3', 'B2', 'B8'], 
+  min: 0,
+  max: 0.3
+}, 'Median composite');
+
+// ==============================================
+// Export to Google Drive
+// ==============================================
+
+// Export the median composite
+Export.image.toDrive({
+  image: composite.select(['B4', 'B3', 'B2', 'B8']),  // Select NIR band
+  description: 'PinetapostNIR',
+  folder: 'GEE_exports',                        // Folder in Google Drive
+  fileNamePrefix: 'pinetapostNIR',
+  region: pinetapostNIR,
+  scale: 10,                                    // Sentinel-2 resolution
+  crs: 'EPSG:4326',
+  maxPixels: 1e13
+});
+
+
+# Una volta ottenute le due immagini su Drive, posso impostare la working directory e importarle su R:
 
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") 
-pinetapre8= rast("pinetapre8.jpg")
-plot(pinetapre8)
-pinetapre8= flip(pinetapre8)
-plot(pinetapre8)
+pinetapreNIR= rast("pinetapreNIR.tif")
+plot(pinetapreNIR, col=magma(100))
 dev.off()
 
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/")
-pinetapost8= rast("pinetapost8.jpg")
-plot(pinetapost8)
-pinetapost8= flip(pinetapost8)
-plot(pinetapost8)
+pinetapostNIR= rast("pinetapostNIR.tif")
+plot(pinetapostNIR, col=magma(100))
 dev.off()
+
+im.multiframe(1,2) #isolo e visulaizzo solo le bande 8 relative al NIR delle due immagini una accanto all'altra
+plot(pinetapreNIR[[4]],stretch = "lin", main = "pinetapreNIR", col=magma(100))
+plot(pinetapostNIR[[4]],stretch = "lin", main = "pinetapostNIR", col=magma(100))
+dev.off()
+
 
 im.multiframe(1,2)
-plot(pinetapre8)
-plot(pinetapost8)
+plotRGB(pinetapreNIR, r = 1, g = 2, b = 4, stretch = "lin", main = "pinetapreNIR") #ho montato sulla componente blue (b) dello schema RGB la banda dell’infrarosso corrispondente a 4, quindi vedrò le piante di colore blu, appare in giallo tutto quello che non è vegetazione.
+plotRGB(pinetapostNIR, r = 1, g = 2, b = 4, stretch = "lin", main = "pinetapostNIR")
 dev.off()
 
 
-# Possiamo calcolare il DVI (Difference Vegetation Index che ci dà informazione sullo stato delle piante) basandosi sulla banda b8 relativa al NIR:
-#8 = NIR
+# Possiamo calcolare il DVI: Difference Vegetation Index che ci dà informazione sullo stato delle piante, basandosi sulla banda B8 relativa al NIR:
+#4 = NIR
 #1 =red
 
-DVIpre = pinetapre[[8]] - pinetapre[[1]] #NIR - red
-plot(pinetapre)
-
+DVIpre = pinetapreNIR[[4]] - pinetapreNIR[[1]] #NIR - red
+plot(DVIpre)
 plot(DVIpre, col=inferno(100))
 
-
-DVIpost = pinetapost[[8]] - pinetapost[[1]] #NIR - red
+DVIpost = pinetapostNIR[[4]] - pinetapostNIR[[1]] #NIR - red
 plot(DVIpost)
+plot(DVIpost, col=inferno(100))
 
-
+im.multiframe(1,2)
+plot(DVIpre, col=inferno(100))
+plot(DVIpost, col=inferno(100))
+dev.off()
 
 
 #Conclusioni:
