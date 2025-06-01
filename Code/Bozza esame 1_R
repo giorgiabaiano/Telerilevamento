@@ -84,7 +84,7 @@ Map.addLayer(composite, {
 // Export the median composite
 Export.image.toDrive({
   image: composite.select(['B4', 'B3', 'B2']),  // Select RGB bands
-  description: 'Sentinel2_Median_Composite',
+  description: 'Pinetapre',
   folder: 'GEE_exports',                        // Folder in Google Drive
   fileNamePrefix: 'pinetapre',
   region: pinetapre ,
@@ -165,7 +165,7 @@ Map.addLayer(composite, {
 // Export the median composite
 Export.image.toDrive({
   image: composite.select(['B4', 'B3', 'B2']),  // Select RGB bands
-  description: 'Sentinel2_Median_Composite',
+  description: 'Pinetapost',
   folder: 'GEE_exports',                        // Folder in Google Drive
   fileNamePrefix: 'pinetapost',
   region: pinetapost ,
@@ -173,7 +173,6 @@ Export.image.toDrive({
   crs: 'EPSG:4326',
   maxPixels: 1e13
 });
-
 
 
 # Una volta ottenute le due immagini su Drive, posso impostare la working directory e importarle su R:
@@ -190,15 +189,17 @@ plot(pinetapost)
 plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost") 
 dev.off()
 
-im.multiframe (2,3) #funzione che apre un pannello multiframe che mi permette di vedere le  immagini una affianco all'altra
-plot(pinetapre, col=viridis(100))
-plot(pinetapost, col=viridis(100))
-
-
-im.multiframe(1,2) 
+im.multiframe(1,2) #funzione che apre un pannello multiframe che mi permette di vedere le  immagini una affianco all'altra
 plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre")
 plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost")
 dev.off()
+
+im.multiframe (2,3) 
+plot(pinetapre, col=inferno(100))
+plot(pinetapost, col=inferno(100))
+
+
+
 
 
 
