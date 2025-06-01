@@ -194,14 +194,9 @@ plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre")
 plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost")
 dev.off()
 
-im.multiframe (2,3) 
-plot(pinetapre, col=inferno(100))
-plot(pinetapost, col=inferno(100))
-
-
-
-
-
+im.multiframe(2,3) 
+plot(pinetapre, col=magma(100))
+plot(pinetapost, col=magma(100))
 
 
 # Scarico le immagini "pinetapre" e "pinetapost" utilizzando la banda 8 relativa al NIR al posto del red nella visualizzazione RGB:
