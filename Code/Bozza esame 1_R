@@ -3,16 +3,17 @@ https://code.earthengine.google.com/
 
 
 # Pacchetti usati:
-library(terra)
-library(imageRy)
+library(terra) #pacchetto per l'utilizzo della funzione rast()
+library(imageRy) #pacchetto per l'utilizzo della funzione im.pltRGB()
 library(viridis) #pacchetto che permette di creare plot di immagini con differenti palette di colori di viridis
 library(ggridges) #pacchetto che permette di creare i plot ridgeline
 
+# Questo codice ha come scopo quello di visualizzare e quantificare la variazione della copertura forestale della Pineta di Cervia - Milano Marittima (RA) prima e dopo il passaggio di una tromba d'aria, avvenuta il 10 luglio 2019, che ha portato ad una perdita di oltre 2500 piante.
 
-# Codice utilizzato in java script per ottenere le immagini della Pineta di Cervia - Milano Marittima (RA) prima e dopo il passaggio di una tromba d'aria, avvenuta il 10 luglio 2019, che ha portato ad una perdita di oltre 2500 piante.
+# Codice utilizzato in java script su Google Earth Engine per ottenere le immagini della Pineta di Cervia - Milano Marittima (RA) prima e dopo il passaggio della tromba d'aria.
 #in mark down rendere visibile il java script scrivendo: ``` JavaScript
 
-
+ 
 #La prima immagine chiamata "pinetapre" riporta una collection di immagini che vanno dal 2018-06-01 al 2019-06-30, selezionando solo immagini con una copertura nuvolosa <20%.
 
 // ==============================================
@@ -175,13 +176,15 @@ Export.image.toDrive({
 });
 
 
-# Una volta ottenute le due immagini su Drive, posso impostare la working directory e importarle su R:
+# Una volta ottenute le due immagini su Drive, posso impostare la working directory per importarle e visualizzarle su R:
 
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") #working directory in cui ho salvato il file da importare
 pinetapre= rast("pinetapre.tif") #importo il raster
-plot(pinetapre)
+plot(pinetapre) #plot che mi permette di visualizzare l'immagine
 plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre") #plot RGB per visualizzare l'immagine nello spettro del visibile
-dev.off()
+dev.off() #funzione con cui cancello l'ultima immagine visualizzata
+
+# Ripeto le stesse funzioni anche per la seconda immagine:
 
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/")
 pinetapost= rast("pinetapost.tif")
@@ -189,10 +192,12 @@ plot(pinetapost)
 plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost") 
 dev.off()
 
+
 im.multiframe(1,2) #funzione che apre un pannello multiframe che mi permette di vedere le  immagini una affianco all'altra
 plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre")
 plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost")
 dev.off()
+
 
 im.multiframe(2,3) 
 plot(pinetapre, col=magma(100))
@@ -366,11 +371,12 @@ Export.image.toDrive({
 });
 
 
-# Una volta ottenute le due immagini su Drive, posso impostare la working directory e importarle su R:
+# Una volta ottenute le due immagini su Drive, posso impostare la working directory per importarle e visualizzarle su R:
+# Ripeto le stesse funzioni viste in precedenza:
 
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") 
 pinetapreNIR= rast("pinetapreNIR.tif")
-plot(pinetapreNIR, col=magma(100))
+plot(pinetapreNIR, col=magma(100)) #scelgo un colore dalla palette dei colori di viridis, dal pacchetto viridis, chiamato "magma" e il numero dei colori delle sfumature all’interno
 dev.off()
 
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/")
@@ -378,7 +384,7 @@ pinetapostNIR= rast("pinetapostNIR.tif")
 plot(pinetapostNIR, col=magma(100))
 dev.off()
 
-im.multiframe(1,2) #isolo e visulaizzo solo le bande 8 relative al NIR delle due immagini una accanto all'altra
+im.multiframe(1,2) #isolo e visualizzo solo le bande 8 relative al NIR delle due immagini una accanto all'altra
 plot(pinetapreNIR[[4]],stretch = "lin", main = "pinetapreNIR", col=magma(100))
 plot(pinetapostNIR[[4]],stretch = "lin", main = "pinetapostNIR", col=magma(100))
 dev.off()
@@ -390,7 +396,7 @@ plotRGB(pinetapostNIR, r = 1, g = 2, b = 4, stretch = "lin", main = "pinetapostN
 dev.off()
 
 
-# Possiamo calcolare il DVI: Difference Vegetation Index che ci dà informazione sullo stato delle piante, basandosi sulla banda B8 relativa al NIR:
+# Calcolo il DVI: Difference Vegetation Index che ci dà informazione sullo stato delle piante, basandosi sulla banda B8 relativa al NIR:
 #4 = NIR
 #1 =red
 
