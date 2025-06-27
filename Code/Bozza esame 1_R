@@ -460,10 +460,10 @@ plot(pinetadif, stretch = "lin", main = "Pinetadif", col=inferno(100))
 # Tutto ciò che ha un colore più scuro ha un valore maggiore, in questo modo è ben visibile la traccia lasciata dal passaggio del tornado 
 
 
-# Possaimo utilizzare la funzione Plot Ridgeline: per creare grafici che usano dati originali e creino una distribuzione delle frequenze di ogni singolo momento e le distribuiscono in una serie temporale.
-
-im.ridgeline(pinetapreNIR, scale=2) # Funzione che prende tutti i pixel di ogni anno e calcola la frequenza dei pixel. Impostando scale=2 vado ad indicare l’altezza del grafico che si va a sovrapporre al grafico successivo creando un effetto 3D.
-im.ridgeline(pinetapostNIR, scale=2)
+# Possaimo utilizzare la funzione Plot Ridgeline: funzione che prende tutti i pixel di ogni periodo e calcola la frequenza dei pixel per poi creare grafici che mostrano la distribuzione delle frequenze di ogni singolo momento e le distribuiscono in una serie temporale.
+#per fare l'analisis multitemporale occorre confrontare 
+im.ridgeline(pinetapreNIR, scale=2, palette="mako")) # Imposto scale=2 con cui vado ad indicare l’altezza del grafico che si va a sovrapporre al grafico successivo creando un effetto 3D e imposto un colore.
+im.ridgeline(pinetapostNIR, scale=2, palette="mako"))
 
 
 
