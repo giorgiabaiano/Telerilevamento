@@ -4,7 +4,7 @@ https://code.earthengine.google.com/
 
 # Pacchetti usati:
 library(terra) #pacchetto per l'utilizzo della funzione rast()
-library(imageRy) #pacchetto per l'utilizzo della funzione im.pltRGB()
+library(imageRy) #pacchetto per l'utilizzo della funzione im.plotRGB()
 library(viridis) #pacchetto che permette di creare plot di immagini con differenti palette di colori di viridis
 library(ggridges) #pacchetto che permette di creare i plot ridgeline
 
@@ -184,19 +184,22 @@ plot(pinetapre) #plot che mi permette di visualizzare l'immagine
 plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre") #plot RGB per visualizzare l'immagine nello spettro del visibile
 dev.off() #funzione con cui cancello l'ultima immagine visualizzata
 
+
 # Ripeto le stesse funzioni anche per la seconda immagine:
 
-setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/")
+setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") 
 pinetapost= rast("pinetapost.tif")
-plot(pinetapost)
+plot(pinetapost) #plot che mi permette di visualizzare l'immagine
 plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost") 
-dev.off()
+dev.off() 
 
+
+# Visualizzo le immagini una accanto all'altra:
 
 im.multiframe(1,2) #funzione che apre un pannello multiframe che mi permette di vedere le  immagini una affianco all'altra
 plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre")
 plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost")
-dev.off()
+dev.off() #funzione con cui cancello l'ultima immagine visualizzata
 
 
 im.multiframe(2,3) 
