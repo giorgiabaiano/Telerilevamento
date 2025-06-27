@@ -180,7 +180,7 @@ Export.image.toDrive({
 
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") #working directory in cui ho salvato il file da importare
 pinetapre= rast("pinetapre.tif") #importo il raster
-plot(pinetapre) #plot che mi permette di visualizzare l'immagine
+im.plot(pinetapre) #plot che mi permette di visualizzare l'immagine
 plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre") #plot RGB per visualizzare l'immagine nello spettro del visibile
 dev.off() #funzione con cui cancello l'ultima immagine visualizzata
 
@@ -379,7 +379,7 @@ Export.image.toDrive({
 
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") 
 pinetapreNIR= rast("pinetapreNIR.tif")
-plot(pinetapreNIR, col=magma(100)) #scelgo un colore dalla palette dei colori di viridis, dal pacchetto viridis, chiamato "magma" e il numero dei colori delle sfumature all’interno
+plot(pinetapreNIR, col=magma(100))#scelgo un colore dalla palette dei colori di viridis, dal pacchetto viridis, chiamato "magma" e il numero dei colori delle sfumature all’interno
 dev.off()
 
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/")
@@ -392,9 +392,8 @@ plot(pinetapreNIR[[4]],stretch = "lin", main = "pinetapreNIR", col=magma(100))
 plot(pinetapostNIR[[4]],stretch = "lin", main = "pinetapostNIR", col=magma(100))
 dev.off()
 
-
 im.multiframe(1,2)
-plotRGB(pinetapreNIR, r = 1, g = 2, b = 4, stretch = "lin", main = "pinetapreNIR") #ho montato sulla componente blue (b) dello schema RGB la banda dell’infrarosso corrispondente a 4, quindi vedrò le piante di colore blu, appare in giallo tutto quello che non è vegetazione.
+plotRGB(pinetapreNIR, r = 1, g = 2, b = 4, stretch = "lin", main = "pinetapreNIR") #ho montato sulla componente blue (b) dello schema RGB la banda dell’infrarosso corrispondente a 4. Quindi vedrò le piante di colore blu, mentre appare nella scala del giallo tutto quello che non è vegetazione (questa funzione con il blu si usa di solito per evidenziare aree con suolo nudo).
 plotRGB(pinetapostNIR, r = 1, g = 2, b = 4, stretch = "lin", main = "pinetapostNIR")
 dev.off()
 
