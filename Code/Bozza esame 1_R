@@ -1,18 +1,17 @@
+# Questo codice ha come scopo quello di visualizzare e quantificare la variazione della copertura forestale della Pineta di Cervia - Milano Marittima (RA) prima e dopo il passaggio di una tromba d'aria, avvenuta il 10 luglio 2019, che ha portato ad una perdita di oltre 2500 piante.
+
 # I dati sono stati ricavati dal seguente sito web: https://earthengine.google.com/ 
 https://code.earthengine.google.com/
-
 
 # Pacchetti usati:
 library(terra) #pacchetto per l'utilizzo della funzione rast()
 library(imageRy) #pacchetto per l'utilizzo della funzione im.plotRGB()
-library(viridis) #pacchetto che permette di creare plot di immagini con differenti palette di colori di viridis
+library(viridis)#pacchetto che permette di creare plot di immagini con differenti palette di colori di viridis
 library(ggridges) #pacchetto che permette di creare i plot ridgeline
 
-# Questo codice ha come scopo quello di visualizzare e quantificare la variazione della copertura forestale della Pineta di Cervia - Milano Marittima (RA) prima e dopo il passaggio di una tromba d'aria, avvenuta il 10 luglio 2019, che ha portato ad una perdita di oltre 2500 piante.
 
 # Codice utilizzato in java script su Google Earth Engine per ottenere le immagini della Pineta di Cervia - Milano Marittima (RA) prima e dopo il passaggio della tromba d'aria.
 #in mark down rendere visibile il java script scrivendo: ``` JavaScript
-
  
 #La prima immagine chiamata "pinetapre" riporta una collection di immagini che vanno dal 2018-06-01 al 2019-06-30, selezionando solo immagini con una copertura nuvolosa <20%.
 
@@ -405,11 +404,11 @@ dev.off()
 
 #CALCOLO DEGLI INDICI SPETTRALI
 
-# Calcolo il DVI: Difference Vegetation Index che ci dà informazione sullo stato delle piante, basandosi sulla banda B8 relativa al NIR. Se l’albero è stressato, le cellule a palizzata collassano, allora la riflettanza nel NIR sarà più bassa.
+# Calcolo il DVI: Difference Vegetation Index, che ci dà informazione sullo stato delle piante, basandosi sulla banda B8 relativa al NIR. Se l’albero è stressato, le cellule a palizzata collassano, allora la riflettanza nel NIR sarà più bassa.
 
 #Ricordiamo le bande:
-#4 = NIR
-#1 =red
+#banda 4 = NIR
+#banda 1 =red
 
 DVIpre = pinetapreNIR[[4]] - pinetapreNIR[[1]] #NIR - red
 plot(DVIpre)
@@ -425,10 +424,17 @@ im.multiframe(1,2)
 plot(DVIpre, stretch = "lin", main = "DVIpre", col=inferno(100))
 plot(DVIpost, stretch = "lin", main = "DVIpost", col=inferno(100))
 dev.off()
+
 # Nella prima immagine si vede un maggior valore della biomassa (colori tendenti al giallo), rispetto alla seconda dove sono chiaramente visibili i danni causati dal passaggio della tromba d'aria al centro della pineta.
 
 
 ????
+# Funzione per vedere il numero di pixel delle due immagini:
+ncell(DVIpre)
+[1] 129812
+ncell(DVIpost)
+[1] 129812
+
 dvipreauto = im.dvi(pinetapre, 1, 2)
 plot(dvipreauto)
 dev.off()
@@ -457,14 +463,17 @@ plot(DVIpost, stretch = "lin", main = "DVIpost", col=inferno(100))
 # Sottraiamo l’immagine della pineta post tromba d'aria da quella pre tromba d'aria per vedere le differenze:
 pinetadif = pinetapre[[1]] - pinetapost[[1]] # abbiamo estratto il livello 1 da entrambe le immagini
 plot(pinetadif, stretch = "lin", main = "Pinetadif", col=inferno(100)) 
-# Tutto ciò che ha un colore più scuro ha un valore maggiore, in questo modo è ben visibile la traccia lasciata dal passaggio del tornado 
+# Tutto ciò che ha un colore più scuro ha un valore maggiore, in questo modo è ben visibile la traccia lasciata dal passaggio della tromba d'aria 
 
 
 # Possaimo utilizzare la funzione Plot Ridgeline: funzione che prende tutti i pixel di ogni periodo e calcola la frequenza dei pixel per poi creare grafici che mostrano la distribuzione delle frequenze di ogni singolo momento e le distribuiscono in una serie temporale.
 #per fare l'analisis multitemporale occorre confrontare 
-im.ridgeline(pinetapreNIR, scale=2, palette="mako")) # Imposto scale=2 con cui vado ad indicare l’altezza del grafico che si va a sovrapporre al grafico successivo creando un effetto 3D e imposto un colore.
-im.ridgeline(pinetapostNIR, scale=2, palette="mako"))
+im.ridgeline(pinetapreNIR, scale=2, palette="mako") # Imposto scale=2 con cui vado ad indicare l’altezza del grafico che si va a sovrapporre al grafico successivo creando un effetto 3D e imposto un colore.
+im.ridgeline(pinetapostNIR, scale=2, palette="mako")
 
+im.multiframe(1,2)
+im.ridgeline(pinetapreNIR, scale=2, palette="mako")
+im.ridgeline(pinetapostNIR, scale=2, palette="mako")
 
 
 
