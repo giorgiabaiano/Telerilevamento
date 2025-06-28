@@ -216,6 +216,7 @@ plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre")
 plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost")
 dev.off()
 
+
 # Creo un pannello multiframe per confrontare le 3 bande che costituiscono ogniuna delle due immagini:
 # Cambio i colori per migliorare la visualizzazione utilizzando il colore "magma" dalla palette dei colori di viridis.
 
@@ -399,12 +400,14 @@ Export.image.toDrive({
 # Una volta ottenute le due immagini su Drive, posso impostare la working directory per importarle e visualizzarle su R:
 # Ripeto le stesse funzioni viste in precedenza:
 
+# pinetapreNIR
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") 
 pinetapreNIR= rast("pinetapreNIR.tif")
 plot(pinetapreNIR)
 plot(pinetapreNIR, col=magma(100))
 dev.off()
 
+# pinetapostNIR
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/")
 pinetapostNIR= rast("pinetapostNIR.tif")
 plot(pinetapostNIR)
@@ -427,10 +430,10 @@ dev.off()
 
 
 
-#CALCOLO DEGLI INDICI SPETTRALI
+# CALCOLO DEGLI INDICI SPETTRALI
 
 # Calcolo il DVI: Difference Vegetation Index, che ci dà informazione sullo stato delle piante, basandosi sulla banda B8 relativa al NIR. Se l’albero è stressato, le cellule a palizzata collassano, allora la riflettanza nel NIR sarà più bassa.
-
+# Calcolo: DVI= NIR - RED
 #Ricordiamo le bande:
 #banda 4 = NIR
 #banda 1 =red
@@ -445,7 +448,7 @@ plot(DVIpost)
 plot(DVIpost, col=inferno(100))
 dev.off()
 
-# Creo un pannello multiframe per vedere le immagini su cui è stato calcoalto il DVI a confronto:
+# Creo un pannello multiframe per confrontare le immagini su cui è stato calcoalto il DVI:
 im.multiframe(1,2)
 plot(DVIpre, stretch = "lin", main = "DVIpre", col=inferno(100))
 plot(DVIpost, stretch = "lin", main = "DVIpost", col=inferno(100))
@@ -454,35 +457,18 @@ dev.off()
 # Nella prima immagine si vede un maggior valore della biomassa (colori tendenti al giallo), rispetto alla seconda dove sono chiaramente visibili i danni causati dal passaggio della tromba d'aria al centro della pineta.
 
 
-????
-# Funzione per vedere il numero di pixel delle due immagini:
-ncell(DVIpre)
-[1] 129812
-ncell(DVIpost)
-[1] 129812
+# Calcolo l'NDVI: Normalized Difference Vegetation Index, si tratta sempre di un indice per analizzare la vegetazione, ma è normalizzato tra -1 e +1.
+# Calcolo: NDVI= (NIR - RED) / (NIR+RED)
 
-dvipreauto = im.dvi(pinetapre, 1, 2)
-plot(dvipreauto)
-dev.off()
+ndvipre = (pinetapreNIR[[4]] - pinetapreNIR[[1]]) / (pinetapreNIR[[4]] + pinetapreNIR[[1]]) # NDVI= (NIR - RED) / (NIR+RED)
+plot(ndvipre)
 
-dvipostauto = im.dvi(pinetapost, 1, 2)
-plot(dvipostauto)
-dev.off()
-
-im.multiframe(1,2)
-plot(dvipreauto)
-plot(dvipostauto)
-
-im.multiframe(2,2)
-plot(dvipreauto, col=inferno(100))
-plot(dvipostauto, col=inferno(100))
-plot(DVIpre, stretch = "lin", main = "DVIpre", col=inferno(100))
-plot(DVIpost, stretch = "lin", main = "DVIpost", col=inferno(100))
-
-????
+ndvipost = (pinetapostNIR[[4]] - pinetapostNIR[[1]]) / (pinetapostNIR[[4]] + pinetapostNIR[[1])
+plot(ndvipost)
 
 
-#ANALISI MULTITEMPORALE
+
+# ANALISI MULTITEMPORALE
 
 # Possiamo usare R per effettuare un'analisi multi temporale: vedere come cambia un'area nel tempo.
 
@@ -497,7 +483,7 @@ plot(pinetadif, stretch = "lin", main = "Pinetadif", col=inferno(100))
 
 # Utilizzo lo stesso codice in java script su Google Earth Engine per ottenere le 3 immagini della Pineta di Cervia, ricavando solo la banda 8 del NIR nei mesi di giugno, luglio e eagosto 2019.
 
-#Immagine "pinetagiu2019":
+# Script per ottenere l'immagine "pinetagiu2019", riporta una collection di immagini che vanno dal 2019-06-01 al 2019-06-30, selezionando solo immagini con una copertura nuvolosa <20%, selezionando solo la banda 8 relativa al NIR.
 
 // ==============================================
 // Sentinel-2 Surface Reflectance - Cloud Masking and Visualization
@@ -580,12 +566,13 @@ Export.image.toDrive({
 
 # Ripeto le stesse funzioni per scaricare e visualizzare le immagini su R viste in precedenza:
 
+pinetagiu2019:
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") 
 pinetagiu2019= rast("pinetagiu2019.tif")
 plot(pinetagiu2019)
 
 
-# Immagine "pinetalug2019":
+# Script per ottenere l'immagine "pinetalug2019", riporta una collection di immagini che vanno dal 2019-07-01 al 2019-07-31, selezionando solo immagini con una copertura nuvolosa <20%, selezionando solo la banda 8 relativa al NIR.
 
 // ==============================================
 // Sentinel-2 Surface Reflectance - Cloud Masking and Visualization
@@ -668,13 +655,14 @@ Export.image.toDrive({
 
 # Ripeto le stesse funzioni per scaricare e visualizzare le immagini su R viste in precedenza:
 
+pinetalug2019
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") 
 pinetalug2019= rast("pinetalug2019.tif")
 plot(pinetalug2019)
 
 
 
-# Immagine "pinetaago2019":
+# Script per ottenere l'immagine "pinetaago2019", riporta una collection di immagini che vanno dal 2019-08-01 al 2019-08-31, selezionando solo immagini con una copertura nuvolosa <20%, selezionando solo la banda 8 relativa al NIR.
 
 // ==============================================
 // Sentinel-2 Surface Reflectance - Cloud Masking and Visualization
@@ -757,6 +745,7 @@ Export.image.toDrive({
 
 # Ripeto le stesse funzioni per scaricare e visualizzare le immagini su R viste in precedenza:
 
+pinetago2019
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") 
 pinetaago2019= rast("pinetaago2019.tif")
 plot(pinetaago2019)
@@ -771,10 +760,10 @@ plot(pinetaago2019, col=inferno(100))
 pineta2019 = c(pinetagiu2019, pinetalug2019, pinetaago2019)
 names(pineta2019) =c("1)giugno2019", "2)luglio2019", "3)agosto2019")
 
-#per fare l'analisis multitemporale occorre confrontare 
+# per fare l'analisis multitemporale occorre confrontare 
 im.ridgeline(pineta2019, scale=2, palette="inferno") # Imposto scale=2 con cui vado ad indicare l’altezza del grafico che si va a sovrapporre al grafico successivo creando un effetto 3D e imposto un colore.
 
 
-#Conclusioni:
-#Ci vorrebbero analisi a più alta risoluzione per rendere visibile ogni singolo albero.
-
+# RISULTATI E CONCLUSIONI:
+# Ci vorrebbero analisi a più alta risoluzione per rendere visibile ogni singolo albero.
+# Le immagini a falsi colori mostrano più o meno chiaramente il passaggio della tromba d'aria
