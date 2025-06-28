@@ -766,4 +766,5 @@ im.ridgeline(pineta2019, scale=2, palette="inferno") # Imposto scale=2 con cui v
 
 # RISULTATI E CONCLUSIONI:
 # Ci vorrebbero analisi a più alta risoluzione per rendere visibile ogni singolo albero.
-# Le immagini a falsi colori mostrano più o meno chiaramente il passaggio della tromba d'aria
+# Le immagini a falsi colori mostrano più o meno chiaramente il passaggio della tromba d'aria. E' abbastanza evidente quando ho montato la banda del NIR sulla componente del blu, in questo modo viene messo in risalto il suolo nudo, che nell'immagine "pinetapostNIR" appare con una striscia al cnetro della pineta coincidente con il passaggio della tromba d'aria.
+
