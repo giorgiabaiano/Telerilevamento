@@ -427,8 +427,8 @@ dev.off()
 # banda 4 = NIR
 # banda 1 =red
 
-# Calcolo il DVI: Difference Vegetation Index, è un indice che ci dà informazione sullo stato delle piante, basandosi sulla banda B8 relativa al NIR. Se l’albero è stressato, le cellule a palizzata collassano, allora la riflettanza nel NIR sarà più bassa.
-# Calcolo: DVI= NIR - RED
+# Calcolo il DVI: Difference Vegetation Index, è un indice che ci dà informazione sullo stato delle piante, basandosi sulla riflettanza della vegetazione nelle bande del rosso (B1) e sulla banda B8 relativa al NIR. Se l’albero è stressato, le cellule a palizzata collassano, allora la riflettanza nel NIR sarà più bassa.
+# Calcolo: DVI= NIR - red
 
 DVIpre = pinetapreNIR[[4]] - pinetapreNIR[[1]] #NIR - red
 plot(DVIpre)
@@ -446,4 +446,19 @@ plot(DVIpre, stretch = "lin", main = "DVIpre", col=inferno(100))
 plot(DVIpost, stretch = "lin", main = "DVIpost", col=inferno(100))
 dev.off()
 
-# Nella prima immagine si vede un maggior valore della biomassa (colori tendenti al giallo), rispetto alla seconda dove sono chiaramente visibili i danni causati dal passaggio della tromba d'aria al centro della pineta.
+# Nella prima immagine si vede un maggior valore della biomassa (colori tendenti al giallo), rispetto alla seconda, dove sono chiaramente visibili i danni causati dal passaggio della tromba d'aria al centro della pineta.
+
+
+# Calcolo l'NDVI: Normalized Difference Vegetation Index, si tratta sempre di un indice per analizzare la vegetazione, ma è normalizzato tra -1 e +1; più adatto per confrontare immagine in tempi diversi.
+# Calcolo: NDVI= (NIR - red) / (NIR + red)
+
+NDVIpre = (pinetapreNIR[[4]] - pinetapreNIR[[1]]) / (pinetapreNIR[[4]] + pinetapreNIR[[1]]) # NDVI= (NIR - RED) / (NIR+RED)
+plot(NDVIpre, stretch = "lin", main = "NDVIpre", col=mako(100))
+
+NDVIpost = (pinetapostNIR[[4]] - pinetapostNIR[[1]]) / (pinetapostNIR[[4]] + pinetapostNIR[[1]]) # NDVI= (NIR - RED) / (NIR+RED)
+plot(NDVIpost, stretch = "lin", main = "NDVIpost", col=mako(100))
+
+im.multiframe(1,2)
+plot(NDVIpre, stretch = "lin", main = "NDVIpre", col=mako(100))
+plot(NDVIpost, stretch = "lin", main = "NDVIpost", col=mako(100))
+dev.off()
