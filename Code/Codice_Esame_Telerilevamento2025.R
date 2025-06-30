@@ -2,7 +2,7 @@
 # GIORGIA BAIANO matricola:1176371
 
 # OBBIETTIVO:
-# Questo codice ha come scopo quello di visualizzare attraverso l'applicazione degli indici spettrali e un'analisi multitemporale, la variazione della copertura forestale della Pineta di Cervia - Milano Marittima (RA) prima e dopo il passaggio di una tromba d'aria, avvenuta il 10 luglio 2019, che ha portato ad una perdita di oltre 2500 piante.
+# Questo codice ha come scopo quello di visualizzare attraverso l'applicazione degli indici spettrali e un'analisi multi temporale, la variazione della copertura forestale della Pineta di Cervia - Milano Marittima (RA) prima e dopo il passaggio di una tromba d'aria, avvenuta il 10 luglio 2019, che ha portato ad una perdita di oltre 2500 piante.
 
 # DATI UTILIZZATI:
 # I dati sono stati ricavati dal seguente sito web: https://earthengine.google.com/ 
@@ -11,7 +11,7 @@
 
 # Ho utilizzato più volte il codice in java script per scaricare più immagini:
 # -le immagini "pinetapreNIR" (rinominata "pinetapre") e "pinetapostNIR" (rinominata "pinetapost") con 4 bande (B1=red, B2=green, B3=blue e B8=NIR)
-# -le immagini "pinetagiu2019", "pinetalug2019" e "pinetaago2019" con solo la banda B8=NIR per l'analisi multitemporale
+# -le immagini "pinetagiu2019", "pinetalug2019" e "pinetaago2019" con solo la banda B8=NIR per l'analisi multi temporale
 # Sono state selezionate solo immagini con una copertura nuvolosa <20%.
 
 # PACCHETTI USATI:
@@ -190,7 +190,7 @@ Export.image.toDrive({
 
 # pinetapre
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") #working directory in cui ho salvato il file da importare
-pinetapre= rast("pinetapreNIR.tif") #importo il raster
+pinetapre= rast("pinetapreNIR.tif") #importo e nomino il raster
 plot(pinetapre) #plot che mi permette di visualizzare l'immagine
 plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre") #plot RGB per visualizzare l'immagine nello spettro del visibile
 dev.off()
@@ -234,9 +234,11 @@ dev.off()
 
 # Visualizzazione del suolo nudo rispetto alla vegetazione:
 im.multiframe(1,2)
-plotRGB(pinetapre, r = 1, g = 2, b = 4, stretch="lin", main = "pinetapre") #ho montato sulla componente blue (b) dello schema RGB, la banda dell’infrarosso corrispondente alla 4. Quindi vedo le piante di colore blu, mentre appare nella scala del giallo tutto ciò che non è vegetazione (questa funzione con il blu si usa di solito per evidenziare aree con suolo nudo).
+plotRGB(pinetapre, r = 1, g = 2, b = 4, stretch="lin", main = "pinetapre") 
 plotRGB(pinetapost, r = 1, g = 2, b = 4, stretch="lin", main = "pinetapost")
 dev.off()
+
+# Ho montato sulla componente blue (b) dello schema RGB, la banda dell’infrarosso corrispondente alla 4. Quindi vedo le piante di colore blu, mentre appare nella scala del giallo tutto ciò che non è vegetazione (questa funzione con il blu si usa di solito per evidenziare aree con suolo nudo).
 
 
 
@@ -272,11 +274,11 @@ dev.off()
 # Calcolo: NDVI= (NIR - red) / (NIR + red)
 
 NDVIpre = (pinetapre[[4]] - pinetapre[[1]]) / (pinetapre[[4]] + pinetapre[[1]]) # NDVI= (NIR - red) / (NIR + red)
-plot(NDVIpre, stretch = "lin", main = "NDVIpre", col=mako(100))
+plot(NDVIpre, stretch = "lin", main = "NDVIpre", col=inferno(100))
 dev.off()
 
 NDVIpost = (pinetapost[[4]] - pinetapost[[1]]) / (pinetapost[[4]] + pinetapost[[1]]) # NDVI= (NIR - red) / (NIR + red)
-plot(NDVIpost, stretch = "lin", main = "NDVIpost", col=mako(100))
+plot(NDVIpost, stretch = "lin", main = "NDVIpost", col=inferno(100))
 dev.off()
 
 im.multiframe(1,2)
@@ -304,12 +306,12 @@ dev.off()
 # Sottraiamo l’immagine della pineta post tromba d'aria da quella pre tromba d'aria per vedere le differenze:
 
 pinetadif = pinetapre[[1]] - pinetapost[[1]] # ho estratto il livello 1 da entrambe le immagini
-plot(pinetadif, stretch = "lin", main = "Pinetadif", col=inferno(100)) 
+plot(pinetadif, stretch = "lin", main = "Pinetadif", col=mako(100)) 
 
 # Tutto ciò che ha un colore più scuro ha un valore maggiore, che va ad indicare un cambiamento delle condizioni di un territorio rispetto a prima, in questo caso il cambaimento è dato dalla perdita della copertura vegetale. In questo modo è ben visibile la traccia lasciata dal passaggio della tromba d'aria. 
 
 
-# Per poter fare un'analisi temporale utilizzando la funzione ridgeline,  occorre avere layer temporali e non bande spettrali, come nel caso delle immagini "pinetapre" e "pinetapost", quindi è necessario creare un nuovo raster delle due immagini focalizzandosi solo sulle bande del NIR per tre periodi differenti, in questo caso giugno 2019, luglio 2019 e agosto 2019, dato che la tromba d'aria si è verificata il 10 luglio 2019.
+# Per poter fare un'analisi multi temporale utilizzando la funzione ridgeline, occorre avere layer temporali e non bande spettrali, come nel caso delle immagini "pinetapre" e "pinetapost", quindi è necessario creare nuovi raster focalizzandosi solo sulle bande del NIR per tre periodi differenti, in questo caso giugno 2019, luglio 2019 e agosto 2019, dato che la tromba d'aria si è verificata il 10 luglio 2019.
 
 # Utilizzo lo stesso codice in java script su Google Earth Engine per ottenere le 3 immagini della Pineta di Cervia, ricavando solo la banda 8 del NIR nei mesi di giugno, luglio e agosto 2019.
 
@@ -584,12 +586,12 @@ names(pineta2019) =c("1)giugno2019", "2)luglio2019", "3)agosto2019") #funzione p
 
 
 # Per eseguire l'analisi multi temporale possiamo confrontare le immagini di giugno, luglio e agosto 2019 utilizzando la funzione Ridgeline: funzione che prende tutti i pixel di ogni periodo e calcola la frequenza dei pixel per poi creare grafici che mostrano la distribuzione delle frequenze di ogni singolo momento e le distribuiscono in una serie temporale.
-im.ridgeline(pineta2019, scale=2, palette="rocket") # Imposto scale=2 con cui vado ad indicare l’altezza del grafico che si va a sovrapporre al grafico successivo creando un effetto 3D e imposto un colore.
+im.ridgeline(pineta2019, scale=2, palette="rocket") #Imposto scale=2 con cui vado ad indicare l’altezza del grafico che si va a sovrapporre al grafico successivo creando un effetto 3D e imposto un colore.
 
 
 
 # RISULTATI E CONCLUSIONI:
 # Ci vorrebbero analisi a più alta risoluzione per rendere visibile ogni singolo albero.
-# Le immagini a falsi colori mostrano più o meno chiaramente il passaggio della tromba d'aria. E' abbastanza evidente invece quando ho montato la banda del NIR sulla componente del blu per mettere in risalto il suolo nudo, che nell'immagine "pinetapost" appare con una striscia al cnetro della pineta coincidente con il passaggio della tromba d'aria.
+# Le immagini a falsi colori mostrano più o meno chiaramente il passaggio della tromba d'aria. E' abbastanza evidente invece quando ho montato la banda del NIR sulla componente del blu per mettere in risalto il suolo nudo, che nell'immagine "pinetapost" appare come una striscia al cnetro della pineta coincidente con il passaggio della tromba d'aria.
 # Le immagini che derivano dal calcolo del DVI mostrano con chiarezza la traccia lasciata dalla tromba d'aria: pixel più chiari rappresentano valori più alti, quindi più vegetazione, al contrario pixel più scuri che rappresentano valori bassi. L'analisi NDVI mostra ancora meglio qusta differenza di colore: nella prima immagine "NDVIpre" vediamo come all'interno della pineta predominano valori chiari (tra 0.8 e 0.6) che si vanno a differenziare da quelli più scuri relativi alle abitazioni, alla fascia costiera, al mare e ad altri specchi d'acqua. Nell'immagine NDVIpost la scia interna alla pineta è costituita da pixel di colore molto più scuro (arrivando fino a 0.2), è ben visibile l'impatto e il danneggiamento della copertura forestale.
 # Il grafico pinetadif delle differenze, ottenuto dall sottrazione dell'immagine post evento da quella pre evento, mostra l'area che ha subito un cambiamento, attraverso pixel più scuri e intensi, coincidenti all'area in cui c'è stata una perdita di vegetazione.
