@@ -210,6 +210,7 @@ plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre")
 plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost")
 dev.off()
 
+
 # Creo un pannello multiframe per confrontare le 4 bande che costituiscono ogniuna delle due immagini:
 # Cambio i colori per migliorare la visualizzazione utilizzando il colore "magma" dalla palette dei colori di viridis.
 
