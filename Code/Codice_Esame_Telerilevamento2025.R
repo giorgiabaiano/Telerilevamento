@@ -7,8 +7,7 @@
 # DATI UTILIZZATI:
 # I dati sono stati ricavati dal seguente sito web: https://earthengine.google.com/ 
 # Ho utilizzato il codice fornito da Rocio Beatriz Cortes Lobos durante la lezione in classe su Google Earth Engine: https://code.earthengine.google.com/957b34097e4d6f4dc33ace082ec7cad7
-# Successivamente ho copiato il codice all'interno di questo codice vuoto: https://code.earthengine.google.com/
-e l'ho modificato con le mie informazioni per ricaavre le immagini per le mie analisi. 
+# Successivamente ho copiato il codice all'interno di questo codice vuoto: https://code.earthengine.google.com/ e l'ho modificato con le mie informazioni per ricaavre le immagini per le mie analisi. 
 
 # Ho utilizzato più volte il codice in java script per scaricare più immagini:
 # -le immagini "pinetapreNIR" (rinominata "pinetapre") e "pinetapostNIR" (rinominata "pinetapost") con 4 bande (B1=red, B2=green, B3=blue e B8=NIR)
