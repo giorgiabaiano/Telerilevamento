@@ -181,7 +181,7 @@ Export.image.toDrive({
 ```
 
 
-# VISUALIZZAZIONE DEI DATI SATELLITARI🌈
+## VISUALIZZAZIONE DEI DATI SATELLITARI🌈
 
 Impostazione della working directory per importare e visualizzare le immagini su R:
 
@@ -225,13 +225,13 @@ dev.off()
 
 
 
-# CALCOLO DEGLI INDICI SPETTRALI📊
+## CALCOLO DEGLI INDICI SPETTRALI📊
 
 Ricordiamo le bande:
 banda 4 = NIR
 banda 1 =red
 
-# Calcolo il DVI🍃 
+## Calcolo il DVI🍃 
 Difference Vegetation Index:  DVI= NIR - red, è un indice che ci dà informazione sullo stato delle piante, basandosi sulla riflettanza della vegetazione nelle bande del rosso B1 e sulla banda B8 relativa al NIR. Se l’albero è stressato, le cellule a palizzata collassano, allora la riflettanza nel NIR sarà più bassa.
 
 ```r
@@ -256,7 +256,7 @@ dev.off()
 ```
 
 
-# Calcolo l'NDVI🍃
+## Calcolo l'NDVI🍃
 Normalized Difference Vegetation Index: NDVI= (NIR - red) / (NIR + red), si tratta sempre di un indice per analizzare la vegetazione, ma è normalizzato tra -1 e +1; più adatto per confrontare immagine in tempi diversi. In questo caso è stato calcolato per val'utare l'impatto della tromba d'aria sulla vegetazione.
 
 ```r
@@ -296,7 +296,7 @@ dev.off()
 >NDVI: dalle immagini si vede come in NDVIpre si osservano valori tipici di copertura vegetale densa e sana, con valori tra 0.8 e 0.6 (colore chiaro). Dopo la tromba d’aria in NDVIpost, si nota una riduzione dei valori NDVI, con aree che scendono sotto a 0.6 fino ad arrivare a 0.3-0.2, indicando perdita di copertura fogliare, quindi alberi abbattuti o suolo esposto.
 
 
-# ANALISI MULTI TEMPORALE⏲️
+## ANALISI MULTI TEMPORALE⏲️
 
 Possiamo usare R per effettuare un'analisi multi temporale: vedere come cambia un'area nel tempo.
 Sottraiamo l’immagine della pineta post tromba d'aria da quella pre tromba d'aria per vedere le differenze:
@@ -599,7 +599,7 @@ im.ridgeline(pineta2019, scale=2, palette="rocket") #Imposto scale=2 con cui vad
 ![Ridgeline pineta2019](https://github.com/user-attachments/assets/778c499e-f02f-44ab-a30a-159fb7f9184d)
 
 
-# RISULTATI E CONCLUSIONI✍️
+## RISULTATI E CONCLUSIONI✍️
 
 >Ci vorrebbero analisi a più alta risoluzione per rendere visibile ogni singolo albero.
 
