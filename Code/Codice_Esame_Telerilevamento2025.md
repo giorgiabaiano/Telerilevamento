@@ -4,8 +4,10 @@
 ## OBBIETTIVO🎯
 Questo codice ha come scopo quello di visualizzare attraverso l'applicazione degli indici spettrali e un'analisi multi temporale, la variazione della copertura forestale della Pineta di Cervia - Milano Marittima (RA) prima e dopo il passaggio di una tromba d'aria, avvenuta il 10 luglio 2019, che ha portato ad una perdita di oltre 2500 piante.
 
+
 ## DATI UTILIZZATI🛰️
 I dati sono stati ricavati dal [sito di Google Earth Engine](https://earthengine.google.com/)
+
 
 ## PACCHETTI USATI📚
 ``` r
@@ -181,6 +183,7 @@ Export.image.toDrive({
 ```
 
 
+
 ## VISUALIZZAZIONE DEI DATI SATELLITARI🌈
 
 Impostazione della working directory per importare e visualizzare le immagini su R:
@@ -202,16 +205,31 @@ plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost")
 dev.off() 
 ```
 
-Creo un pannello multiframe per vedere le immagini a confronto nel visibile:
+Creo un pannello multiframe per vedere le immagini della pineta prima e dopo il passaggio della tromba d'aria a confronto nel visibile:
 ```r
 im.multiframe(1,2) #funzione che apre un pannello multiframe che mi permette di vedere le 2 immagini una affianco all'altra (layout: 1 riga, 2 colonne)
 plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre")
 plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost")
 dev.off()
 ```
-
-Confronto delle immagine della pineta priam e dopo il passaggio della tromba d'aria:
 ![Confronto pinetapre e pinetapost](https://github.com/user-attachments/assets/00df67fb-2f88-4eac-8232-a585d0be14e7)
+
+Creo un pannello multiframe per confrontare le 4 bande che costituiscono ogniuna delle due immagini:
+```r
+im.multiframe(2,4) #(layout: 2 righe, 4 colonne)
+plot(pinetapre[[1]], col = magma(100), main = "Pre - Banda 1")
+plot(pinetapre[[2]], col = magma(100), main = "Pre - Banda 2")
+plot(pinetapre[[3]], col = magma(100), main = "Pre - Banda 3")
+plot(pinetapre[[4]], col = magma(100), main = "Pre - Banda 8")
+
+plot(pinetapost[[1]], col = magma(100), main = "Post - Banda 1")
+plot(pinetapost[[2]], col = magma(100), main = "Post - Banda 2")
+plot(pinetapost[[3]], col = magma(100), main = "Post - Banda 3")
+plot(pinetapost[[4]], col = magma(100), main = "Post - Banda 8")
+dev.off()
+```
+![Visualizzazione bande pineta pre e post](https://github.com/user-attachments/assets/8d73449c-0830-4c29-aace-5b80bebc36b5)
+
 
 Visualizzazione del suolo nudo rispetto alla vegetazione:
 ```r
@@ -601,10 +619,10 @@ im.ridgeline(pineta2019, scale=2, palette="rocket") #Imposto scale=2 con cui vad
 
 ## RISULTATI E CONCLUSIONI✍️
 
->Ci vorrebbero analisi a più alta risoluzione per rendere visibile ogni singolo albero.
+* Ci vorrebbero analisi a più alta risoluzione per rendere visibile ogni singolo albero.
 
->Le immagini a falsi colori mostrano più o meno chiaramente il passaggio della tromba d'aria. E' abbastanza evidente invece quando ho montato la banda del NIR sulla componente del blu per mettere in risalto il suolo nudo, che nell'immagine "pinetapost" appare come una striscia al cnetro della pineta coincidente con il passaggio della tromba d'aria.
+* Le immagini a falsi colori mostrano più o meno chiaramente il passaggio della tromba d'aria. E' abbastanza evidente invece quando ho montato la banda del NIR sulla componente del blu per mettere in risalto il suolo nudo, che nell'immagine "pinetapost" appare come una striscia al cnetro della pineta coincidente con il passaggio della tromba d'aria.
 
->Le immagini che derivano dal calcolo del DVI mostrano con chiarezza la traccia lasciata dalla tromba d'aria: pixel più chiari rappresentano valori più alti, quindi più vegetazione, al contrario pixel più scuri che rappresentano valori bassi. L'analisi NDVI mostra ancora meglio qusta differenza di colore: nella prima immagine "NDVIpre" vediamo come all'interno della pineta predominano valori chiari (tra 0.8 e 0.6) che si vanno a differenziare da quelli più scuri relativi alle abitazioni, alla fascia costiera, al mare e ad altri specchi d'acqua. Nell'immagine NDVIpost la scia interna alla pineta è costituita da pixel di colore molto più scuro (arrivando fino a 0.2), è ben visibile l'impatto e il danneggiamento della copertura forestale.
+* Le immagini che derivano dal calcolo del DVI mostrano con chiarezza la traccia lasciata dalla tromba d'aria: pixel più chiari rappresentano valori più alti, quindi più vegetazione, al contrario pixel più scuri che rappresentano valori bassi. L'analisi NDVI mostra ancora meglio qusta differenza di colore: nella prima immagine "NDVIpre" vediamo come all'interno della pineta predominano valori chiari (tra 0.8 e 0.6) che si vanno a differenziare da quelli più scuri relativi alle abitazioni, alla fascia costiera, al mare e ad altri specchi d'acqua. Nell'immagine NDVIpost la scia interna alla pineta è costituita da pixel di colore molto più scuro (arrivando fino a 0.2), è ben visibile l'impatto e il danneggiamento della copertura forestale.
 
->Il grafico pinetadif delle differenze, ottenuto dall sottrazione dell'immagine post evento da quella pre evento, mostra l'area che ha subito un cambiamento, attraverso pixel più scuri e intensi, coincidenti all'area in cui c'è stata una perdita di vegetazione.
+* Il grafico pinetadif delle differenze, ottenuto dall sottrazione dell'immagine post evento da quella pre evento, mostra l'area che ha subito un cambiamento, attraverso pixel più scuri e intensi, coincidenti all'area in cui c'è stata una perdita di vegetazione.
