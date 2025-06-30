@@ -575,7 +575,7 @@ pinetaago2019= rast("pinetaago2019.tif")
 plot(pinetaago2019)
 dev.off()
 
-# Vedimao le 3 immagini a confronto:
+# Vediamo le 3 immagini a confronto:
 im.multiframe(1,3)
 plot(pinetagiu2019, col=rocket(100))
 plot(pinetalug2019, col=rocket(100))
