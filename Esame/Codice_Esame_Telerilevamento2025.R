@@ -13,6 +13,7 @@
 # -le immagini "pinetapreNIR" (rinominata "pinetapre") e "pinetapostNIR" (rinominata "pinetapost") con 4 bande (B1=red, B2=green, B3=blue e B8=NIR)
 # -le immagini "pinetagiu2019", "pinetalug2019" e "pinetaago2019" con solo la banda B8=NIR per l'analisi multi temporale
 # Sono state selezionate solo immagini con una copertura nuvolosa <20%.
+# Le immagini sono state salvate da R attraverso la barra degli strumenti: immagini salvate come jpg nella cartella della working directory.
 
 # PACCHETTI USATI:
 library(terra) #pacchetto per l'utilizzo della funzione rast() per SpatRaster
