@@ -1,5 +1,6 @@
 # ESAME TELERILEVAMENTO GEOECOLOGICO 2025
-# GIORGIA BAIANO matricola:1176371
+# GIORGIA BAIANO 
+# matricola:1176371
 
 # OBBIETTIVO:
 # Questo codice ha come scopo quello di visualizzare attraverso l'applicazione degli indici spettrali e un'analisi multi temporale, la variazione della copertura forestale della Pineta di Cervia - Milano Marittima (RA) prima e dopo il passaggio di una tromba d'aria, avvenuta il 10 luglio 2019, che ha portato ad una perdita di oltre 2500 piante.
@@ -8,16 +9,15 @@
 # I dati sono stati ricavati dal seguente sito web: https://earthengine.google.com/ 
 # Ho utilizzato il codice fornito da Rocio Beatriz Cortes Lobos durante la lezione in classe su Google Earth Engine: https://code.earthengine.google.com/957b34097e4d6f4dc33ace082ec7cad7
 # Successivamente ho copiato il codice all'interno di questo codice vuoto: https://code.earthengine.google.com/ e l'ho modificato con le mie informazioni per ricaavre le immagini per le mie analisi. 
-
 # Ho utilizzato più volte il codice in java script per scaricare più immagini:
 # -le immagini "pinetapreNIR" (rinominata "pinetapre") e "pinetapostNIR" (rinominata "pinetapost") con 4 bande (B1=red, B2=green, B3=blue e B8=NIR)
 # -le immagini "pinetagiu2019", "pinetalug2019" e "pinetaago2019" con solo la banda B8=NIR per l'analisi multi temporale
 # Sono state selezionate solo immagini con una copertura nuvolosa <20%.
-# Le immagini sono state salvate da R attraverso la barra degli strumenti: immagini salvate come jpg nella cartella della working directory.
+# Le immagini sono state salvate da R attraverso la barra degli strumenti: immagini salvate come jpg nella cartella della working directory (setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/")).
 
 # PACCHETTI USATI:
 library(terra) #pacchetto per l'utilizzo della funzione rast() per SpatRaster
-library(imageRy) #pacchetto per l'utilizzo della funzione im.plotRGB()
+library(imageRy) #pacchetto per l'utilizzo della funzione im.plotRGB() per la visualizzazione delle immagini; e le funzioni im.dvi() e im.ndvi()
 library(viridis) #pacchetto che permette di creare plot di immagini con differenti palette di colori di viridis
 library(ggridges) #pacchetto che permette di creare i plot ridgeline
 
@@ -212,7 +212,7 @@ plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost")
 dev.off()
 
 
-# Creo un pannello multiframe per confrontare le 4 bande che costituiscono ogniuna delle due immagini:
+# Creo un pannello multiframe per visualizzare le 4 bande che costituiscono ogniuna delle due immagini:
 # Cambio i colori per migliorare la visualizzazione utilizzando il colore "magma" dalla palette dei colori di viridis.
 
 im.multiframe(2,4) #(layout: 2 righe, 4 colonne)
@@ -263,16 +263,31 @@ plot(DVIpost)
 plot(DVIpost, col=inferno(100))
 dev.off()
 
-# Creo un pannello multiframe per confrontare le immagini su cui è stato calcoalto il DVI:
+# Creo un pannello multiframe per confrontare le immagini su cui è stato calcolato il DVI:
 im.multiframe(1,2)
 plot(DVIpre, stretch = "lin", main = "DVIpre", col=inferno(100))
 plot(DVIpost, stretch = "lin", main = "DVIpost", col=inferno(100))
 dev.off()
 
+# E' possibile calcoalre il DVI usando una funzione di imageRy invece di scrivere le formule per esteso:
+dvipreauto = im.dvi(pinetapre, 4, 1) #funzione per il calcolo automatico del DVI dove specifico l'immagine di riferimento e le bande relative al NIR(4) e al rosso (1)
+plot(dvipreauto, col=inferno(100))
+dev.off()
+
+dvipostauto = im.dvi(pinetapost, 4, 1)
+plot(dvipostauto, col=inferno(100))
+dev.off()
+
+im.multiframe(1,2)
+plot(dvipreauto, stretch = "lin", main = "dvipreauto", col=inferno(100))
+plot(dvipostauto, stretch = "lin", main = "dvipostauto", col=inferno(100))
+dev.off()
+
+
 # Nella prima immagine si vede un maggior valore della biomassa (colori tendenti al giallo), rispetto alla seconda, dove sono chiaramente visibili i danni causati dal passaggio della tromba d'aria al centro della pineta.
 
 
-# Calcolo l'NDVI: Normalized Difference Vegetation Index, si tratta sempre di un indice per analizzare la vegetazione, ma è normalizzato tra -1 e +1; più adatto per confrontare immagine in tempi diversi. In questo caso è stato calcolato per val'utare l'impatto della tromba d'aria sulla vegetazione.
+# Calcolo l'NDVI: Normalized Difference Vegetation Index, si tratta sempre di un indice per analizzare la vegetazione, ma è normalizzato tra -1 e +1; più adatto per confrontare immagini in tempi diversi. In questo caso è stato calcolato per valutare l'impatto della tromba d'aria sulla vegetazione.
 # Calcolo: NDVI= (NIR - red) / (NIR + red)
 
 NDVIpre = (pinetapre[[4]] - pinetapre[[1]]) / (pinetapre[[4]] + pinetapre[[1]]) # NDVI= (NIR - red) / (NIR + red)
@@ -288,8 +303,21 @@ plot(NDVIpre, stretch = "lin", main = "NDVIpre", col=inferno(100))
 plot(NDVIpost, stretch = "lin", main = "NDVIpost", col=inferno(100))
 dev.off()
 
-# Dalle immagini si vede come in NDVIpre si osservano valori tipici di copertura vegetale densa e sana, con valori tra 0.8 e 0.6 (colore chiaro). Dopo la tromba d’aria in NDVIpost, si nota una riduzione dei valori NDVI, con aree che scendono sotto a 0.6 fino ad arrivare a 0.3-0.2, indicando perdita di copertura fogliare, quindi alberi abbattuti o suolo esposto.
+#E' possibile calcoalre l'NDVI usando una funzione di imageRy invece di scrivere le formule per esteso:
+ndvipreauto = im.ndvi(pinetapre, 4, 1) #funzione per il calcolo automatico dell'NDVI dove specifico l'immagine di riferimento e le bande relative al NIR(4) e al rosso (1)
+plot(ndvipreauto, col=inferno(100))
+dev.off()
 
+ndvipostauto = im.ndvi(pinetapost, 4, 1)
+plot(ndvipostauto, col=inferno(100))
+dev.off()
+
+im.multiframe(1,2)
+plot(ndvipreauto, stretch = "lin", main = "ndvipreauto", col=inferno(100))
+plot(ndvipostauto, stretch = "lin", main = "ndvipostauto", col=inferno(100))
+dev.off()
+
+# Dalle immagini si vede come in NDVIpre si osservano valori tipici di copertura vegetale densa e sana, con valori tra 0.8 e 0.6 (colore chiaro). Dopo la tromba d’aria in NDVIpost, si nota una riduzione dei valori NDVI, con aree che scendono sotto a 0.6 fino ad arrivare a 0.3-0.2, indicando perdita di copertura fogliare, quindi alberi abbattuti o suolo esposto.
 
 # Confronto delle immagini pre e post passaggio tromba d'aria, ottenute attraverso il calcolo del DVI e dell'NDVI:
 
@@ -305,17 +333,21 @@ dev.off()
 # ANALISI MULTI TEMPORALE
 
 # Possiamo usare R per effettuare un'analisi multi temporale: vedere come cambia un'area nel tempo.
-# Sottraiamo l’immagine della pineta post tromba d'aria da quella pre tromba d'aria per vedere le differenze:
-
+# Calcolo la differenza nella banda del rosso (B1) e dell'NDVI tra l’immagine della pineta post tromba d'aria e quella pre tromba d'aria per vedere le differenze:
 pinetadif = pinetapre[[1]] - pinetapost[[1]] # ho estratto il livello 1 da entrambe le immagini
 plot(pinetadif, stretch = "lin", main = "Pinetadif", col=mako(100)) 
+dev.off()
+
+pinetadifNDVI = ndvipostauto - ndvipreauto #differenza NDVI tra pineta post e pre impatto 
+plot(pinetadifNDVI, stretch = "lin", main = "PinetadifNDVI", col=mako(100))
+dev.off()
 
 # Tutto ciò che ha un colore più scuro ha un valore maggiore, che va ad indicare un cambiamento delle condizioni di un territorio rispetto a prima, in questo caso il cambaimento è dato dalla perdita della copertura vegetale. In questo modo è ben visibile la traccia lasciata dal passaggio della tromba d'aria. 
 
 
 # Per poter fare un'analisi multi temporale utilizzando la funzione ridgeline, occorre avere layer temporali e non bande spettrali, come nel caso delle immagini "pinetapre" e "pinetapost", quindi è necessario creare nuovi raster focalizzandosi solo sulle bande del NIR per tre periodi differenti, in questo caso giugno 2019, luglio 2019 e agosto 2019, dato che la tromba d'aria si è verificata il 10 luglio 2019.
 
-# Utilizzo lo stesso codice in java script su Google Earth Engine per ottenere le 3 immagini della Pineta di Cervia, ricavando solo la banda 8 del NIR nei mesi di giugno, luglio e agosto 2019.
+# Utilizzo lo stesso codice in java script su Google Earth Engine per ottenere le 3 immagini della Pineta di Cervia, ricavando solo la banda 8 del NIR nei mesi di giugno, luglio e agosto 2019, sempre con una copertura nuvolosa <20%.
 
 # Script per ottenere l'immagine "pinetagiu2019", riporta una collection di immagini che vanno dal 2019-06-01 al 2019-06-30, selezionando solo immagini con una copertura nuvolosa <20% con solo la banda 8 relativa al NIR.
 // ==============================================
@@ -591,9 +623,9 @@ names(pineta2019) =c("1)giugno2019", "2)luglio2019", "3)agosto2019") #funzione p
 im.ridgeline(pineta2019, scale=2, palette="rocket") #Imposto scale=2 con cui vado ad indicare l’altezza del grafico che si va a sovrapporre al grafico successivo creando un effetto 3D e imposto un colore.
 
 
-
 # RISULTATI E CONCLUSIONI:
 # Ci vorrebbero analisi a più alta risoluzione per rendere visibile ogni singolo albero.
-# Le immagini a falsi colori mostrano più o meno chiaramente il passaggio della tromba d'aria. E' abbastanza evidente invece quando ho montato la banda del NIR sulla componente del blu per mettere in risalto il suolo nudo, che nell'immagine "pinetapost" appare come una striscia al cnetro della pineta coincidente con il passaggio della tromba d'aria.
+# Le immagini a falsi colori mostrano più o meno chiaramente il passaggio della tromba d'aria. E' abbastanza evidente invece, quando ho montato la banda del NIR sulla componente del blu per mettere in risalto il suolo nudo, che nell'immagine "pinetapost" appare come una striscia al cnetro della pineta coincidente con il passaggio della tromba d'aria.
 # Le immagini che derivano dal calcolo del DVI mostrano con chiarezza la traccia lasciata dalla tromba d'aria: pixel più chiari rappresentano valori più alti, quindi più vegetazione, al contrario pixel più scuri che rappresentano valori bassi. L'analisi NDVI mostra ancora meglio qusta differenza di colore: nella prima immagine "NDVIpre" vediamo come all'interno della pineta predominano valori chiari (tra 0.8 e 0.6) che si vanno a differenziare da quelli più scuri relativi alle abitazioni, alla fascia costiera, al mare e ad altri specchi d'acqua. Nell'immagine NDVIpost la scia interna alla pineta è costituita da pixel di colore molto più scuro (arrivando fino a 0.2), è ben visibile l'impatto e il danneggiamento della copertura forestale.
-# Il grafico pinetadif delle differenze, ottenuto dall sottrazione dell'immagine post evento da quella pre evento, mostra l'area che ha subito un cambiamento, attraverso pixel più scuri e intensi, coincidenti all'area in cui c'è stata una perdita di vegetazione.
+# I grafici pinetadif e pinetadifNDVI delle differenze, ottenuti dall sottrazione delle immagini post evento da quelle pre evento, mostrano l'area che ha subito un cambiamento, attraverso pixel più scuri e intensi, coincidenti all'area in cui c'è stata una perdita di vegetazione.
+# Dal grafico si vede come da giugno 2019 a luglio 2019 siano cambiati i picchi dei valori più bassi, relativi alle zone dove si è persa la vegetazione, proprio nel mese di luglio quando è avvento l'evento che ha portato a questo impatto sulla pineta.
