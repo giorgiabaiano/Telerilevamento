@@ -649,7 +649,7 @@ plot(pinetaago2019)
 dev.off()
 ```
 
-Unisco i 3 raster con un pacchetto chiamato **stack** e rinomino i layer del vettore appena creato.
+Unisco i 3 raster con una procedura chiamata **stack** e rinomino i layer del vettore appena creato.
 
 ```r
 pineta2019 = c(pinetagiu2019, pinetalug2019, pinetaago2019) #funzione per creare un vettore
