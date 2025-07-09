@@ -194,7 +194,7 @@ Una volta ottenute le due immagini su Google Drive posso impostare la working di
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") #working directory in cui ho salvato il file da importare
 pinetapre= rast("pinetapreNIR.tif") #importo e nomino il raster
 plot(pinetapre) #plot che mi permette di visualizzare l'immagine
-plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre") #plot RGB per visualizzare l'immagine nello spettro del visibile
+im.plotRGB(pinetapre, r=1, g=2, b=3, title="pinetapre") #plot RGB per visualizzare l'immagine nello spettro del visibile
 dev.off()
 ```
 **pinetapost**
@@ -202,15 +202,15 @@ dev.off()
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/")
 pinetapost= rast("pinetapostNIR.tif")
 plot(pinetapost)
-plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost") 
+im.plotRGB(pinetapost, r=1, g=2, b=3, title="pinetapost")
 dev.off() 
 ```
 
 Creo un pannello multiframe per vedere le immagini della pineta prima e dopo il passaggio della tromba d'aria a confronto nel visibile (RGB):
 ```r
 im.multiframe(1,2) #funzione che apre un pannello multiframe che mi permette di vedere le 2 immagini una affianco all'altra (layout: 1 riga, 2 colonne)
-plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre")
-plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost")
+im.plotRGB(pinetapre, r=1, g=2, b=3, title="pinetapre")
+im.plotRGB(pinetapost, r=1, g=2, b=3, title="pinetapost")
 dev.off()
 ```
 ![Confronto pinetapre e pinetapost](https://github.com/user-attachments/assets/00df67fb-2f88-4eac-8232-a585d0be14e7)
@@ -235,8 +235,8 @@ dev.off()
 Visualizzazione del suolo nudo rispetto alla vegetazione:
 ```r
 im.multiframe(1,2)
-plotRGB(pinetapre, r = 1, g = 2, b = 4, stretch="lin", main = "pinetapre") 
-plotRGB(pinetapost, r = 1, g = 2, b = 4, stretch="lin", main = "pinetapost")
+im.plotRGB(pinetapre, r=1, g=2, b=4, title="pinetapre")
+im.plotRGB(pinetapost, r=1, g=2, b=4, title="pinetapost")
 dev.off()
 ```
 ![Confronto pineta pre e post Nir su b](https://github.com/user-attachments/assets/75f34433-7a99-4499-86ed-1c53f1e1551c)
