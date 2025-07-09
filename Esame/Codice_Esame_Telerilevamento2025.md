@@ -13,7 +13,7 @@ I dati sono stati ricavati dal [sito di Google Earth Engine](https://earthengine
 ## PACCHETTI USATI📚
 ``` r
 library(terra) #pacchetto per l'utilizzo della funzione rast() per SpatRaster
-library(imageRy) #pacchetto per l'utilizzo della funzione im.plotRGB() per la visualizzazione delle immagini; e le funzioni im.dvi() e im.ndvi()
+library(imageRy) #pacchetto per la visualizzazione plot delle immagini; e le funzioni im.dvi() e im.ndvi()
 library(viridis) #pacchetto che permette di creare plot di immagini con differenti palette di colori di viridis
 library(ggridges) #pacchetto che permette di creare i plot ridgeline
 ```
