@@ -614,7 +614,7 @@ plot(pinetagiu2019, col=rocket(100))
 plot(pinetalug2019, col=rocket(100))
 plot(pinetaago2019, col=rocket(100))
 
-# Unisco i 3 raster con un pacchetto chiamato stack: si tratta di un pacchetto dove si prendono tanti dati e si mettono tutti insieme, un unico oggetto che contiene più raster. In questo pacchetto le bande vengono viste come elementi di un vettore.
+# Unisco i 3 raster con una procedura chiamata stack: si tratta di un pacchetto dove si prendono tanti dati e si mettono tutti insieme, un unico oggetto che contiene più raster. In questo pacchetto le bande vengono viste come elementi di un vettore.
 pineta2019 = c(pinetagiu2019, pinetalug2019, pinetaago2019) #funzione per creare un vettore
 names(pineta2019) =c("1)giugno2019", "2)luglio2019", "3)agosto2019") #funzione per dare un nome ai layer del vettore
 
