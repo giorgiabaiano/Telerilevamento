@@ -193,7 +193,7 @@ Export.image.toDrive({
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/") #working directory in cui ho salvato il file da importare
 pinetapre= rast("pinetapreNIR.tif") #importo e nomino il raster
 plot(pinetapre) #plot che mi permette di visualizzare l'immagine
-plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre") #plot RGB per visualizzare l'immagine nello spettro del visibile
+im.plotRGB(pinetapre, r=1, g=2, b=3, title="pinetapre") #plot RGB per visualizzare l'immagine nello spettro del visibile
 dev.off()
 
 # Ripeto le stesse funzioni anche per la seconda immagine:
@@ -201,14 +201,14 @@ dev.off()
 setwd("C://Users/gdemo/Desktop/Telerilevamento geoecologico/")
 pinetapost= rast("pinetapostNIR.tif")
 plot(pinetapost)
-plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost") 
+im.plotRGB(pinetapost, r=1, g=2, b=3, title="pinetapost")
 dev.off() 
 
 # Creo un pannello multiframe per vedere le immagini a confronto nel visibile:
 
 im.multiframe(1,2) #funzione che apre un pannello multiframe che mi permette di vedere le 2 immagini una affianco all'altra (layout: 1 riga, 2 colonne)
-plotRGB(pinetapre, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapre")
-plotRGB(pinetapost, r = 1, g = 2, b = 3, stretch = "lin", main = "pinetapost")
+im.plotRGB(pinetapre, r=1, g=2, b=3, title="pinetapre")
+im.plotRGB(pinetapost, r=1, g=2, b=3, title="pinetapost")
 dev.off()
 
 
@@ -236,8 +236,8 @@ dev.off()
 
 # Visualizzazione del suolo nudo rispetto alla vegetazione:
 im.multiframe(1,2)
-plotRGB(pinetapre, r = 1, g = 2, b = 4, stretch="lin", main = "pinetapre") 
-plotRGB(pinetapost, r = 1, g = 2, b = 4, stretch="lin", main = "pinetapost")
+im.plotRGB(pinetapre, r=1, g=2, b=4, title="pinetapre")
+im.plotRGB(pinetapost, r=1, g=2, b=4, title="pinetapost")
 dev.off()
 
 # Ho montato sulla componente blue (b) dello schema RGB, la banda dell’infrarosso corrispondente alla 4. Quindi vedo le piante di colore blu, mentre appare nella scala del giallo tutto ciò che non è vegetazione (questa funzione con il blu si usa di solito per evidenziare aree con suolo nudo).
